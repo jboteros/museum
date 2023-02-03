@@ -27,6 +27,8 @@ export type RootStackParamList = {
   [routeNames.SPLASH_LOADER]: undefined;
   [routeNames.HOME_SCREEN]: undefined;
   [routeNames.SINGLE_EVENT]: { id: number };
+  [routeNames.SINGLE_ARTWORK]: { id: number };
+  [routeNames.IMAGE_VIEWER]: { imageId: number };
 };
 
 export type NavigationProps = {

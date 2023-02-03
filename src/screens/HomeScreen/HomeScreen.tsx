@@ -13,9 +13,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Animated,
 } from 'react-native';
 import { useAppSelector } from '@/core';
-import { Artwork } from '@/core/museum/types';
+import {
+  NavigationProps,
+  routeNames,
+  useNavigation,
+  useSafeAreaInsets,
+} from '@/navigation';
+import { colors, sizes } from '@/styles';
 import {
   AppText,
   Arrow,
@@ -23,20 +30,27 @@ import {
   SectionTitle,
   SeparateChildren,
 } from '@/components';
-import { useSafeAreaInsets } from '@/navigation';
-import { colors, sizes } from '@/styles';
+import { useSpring } from '@/hooks/useSpring';
+import { Artwork } from '@/core/museum/types';
 import { useActions } from './useActions';
 import { NotificationsIcon } from './NotificationsIcon';
 
 const keyExtractor = (item: Artwork, index: number) => `${item?.id}-${index}`;
 
-const _renderItem = ({ item }: { item?: Artwork }) => {
+const _renderItem = ({
+  item,
+  onSelect,
+}: {
+  item?: Artwork;
+  onSelect: () => void;
+}) => {
   if (!item) {
     return null;
   }
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={onSelect}
       style={{
         marginVertical: 20,
         marginHorizontal: sizes.contentMargin.full,
@@ -101,24 +115,55 @@ const _renderItem = ({ item }: { item?: Artwork }) => {
           </AppText.Body1>
         </SeparateChildren>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 export function HomeScreen(): JSX.Element {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation<NavigationProps>();
   const flatListRef = useRef<FlatList>(null);
+
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const { handleGetEvents, handleGetArtworks } = useActions();
 
   const { artworks = [] } = useAppSelector(state => state.museum);
 
+  const animate = useSpring(
+    { to: isActive ? 1 : 0 },
+    {
+      stiffness: 50,
+    },
+  );
+
+  const opacity = animate.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  }) as unknown as number;
+
+  const translateYContent = animate.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -250],
+  }) as unknown as number;
+
   useEffect(() => {
     handleGetEvents();
     handleGetArtworks(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleScroll = useCallback(
+    (e: { nativeEvent: { contentOffset: { y: number } } }) => {
+      if (e.nativeEvent.contentOffset.y <= 0 && isActive === true) {
+        setIsActive(false);
+      } else if (e.nativeEvent.contentOffset.y > 0 && isActive === false) {
+        setIsActive(true);
+      }
+    },
+    [isActive],
+  );
 
   const handleEndReached = useCallback(async () => {
     try {
@@ -138,50 +183,73 @@ export function HomeScreen(): JSX.Element {
     }
   }, [handleGetArtworks]);
 
+  const handleSelectArtwork = useCallback(
+    (artwork: Artwork) =>
+      navigation.navigate(routeNames.SINGLE_ARTWORK, { id: artwork.id }),
+    [navigation],
+  );
+
   const renderItem = useCallback(
-    ({ item }: { item: Artwork }) => _renderItem({ item }),
-    [],
+    ({ item }: { item: Artwork }) =>
+      _renderItem({
+        item,
+        onSelect: () => {
+          handleSelectArtwork(item);
+        },
+      }),
+    [handleSelectArtwork],
   );
 
   const renderHeader = useCallback(
     () => (
-      <>
-        <View
-          style={{
-            marginTop: 20,
-            marginHorizontal: 10,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <View
-            style={{
-              width: 40,
-              height: 40,
-              backgroundColor: colors.silver,
-              borderRadius: sizes.borderRadius.medium,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <NotificationsIcon color={colors.alphaColor(colors.primary, 0.5)} />
-          </View>
-          <Image
-            source={require('./articLogo.png')}
-            style={{ width: 70, height: 70 }}
-          />
-        </View>
+      <View style={{ marginTop: insets.top + 10 }}>
         <SectionTitle title="Events" />
         <EventsCarrousel />
         <SectionTitle title="Artworks" />
-      </>
+      </View>
     ),
-    [],
+    [insets.top],
   );
 
   return (
     <View style={{ flex: 1 }}>
+      <Animated.View
+        style={[
+          {
+            zIndex: 1,
+            position: 'absolute',
+            width: '100%',
+            alignSelf: 'center',
+            paddingHorizontal: sizes.contentMargin.full,
+            top: 0,
+            paddingTop: insets.top,
+            marginTop: 20,
+            marginHorizontal: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          },
+          { transform: [{ translateY: translateYContent }] },
+        ]}>
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            backgroundColor: colors.silver,
+            borderRadius: sizes.borderRadius.medium,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <NotificationsIcon color={colors.alphaColor(colors.primary, 0.5)} />
+        </View>
+        <Image
+          source={require('./articLogo.png')}
+          style={{ width: 70, height: 70 }}
+        />
+      </Animated.View>
       <FlatList
         ref={flatListRef}
         data={artworks}
+        onScroll={handleScroll}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         contentInsetAdjustmentBehavior="automatic"
@@ -224,19 +292,24 @@ export function HomeScreen(): JSX.Element {
       <TouchableOpacity
         onPress={() =>
           flatListRef.current?.scrollToOffset({ animated: true, offset: -100 })
-        }
-        style={{
-          position: 'absolute',
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          right: 10,
-          bottom: insets.bottom + 10,
-          backgroundColor: colors.alphaColor(colors.primary, 0.9),
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Arrow direction="up" />
+        }>
+        <Animated.View
+          style={[
+            {
+              position: 'absolute',
+              width: 40,
+              height: 40,
+              borderRadius: 20,
+              right: 10,
+              bottom: insets.bottom + 10,
+              backgroundColor: colors.alphaColor(colors.primary, 0.9),
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            { opacity },
+          ]}>
+          <Arrow direction="up" />
+        </Animated.View>
       </TouchableOpacity>
     </View>
   );

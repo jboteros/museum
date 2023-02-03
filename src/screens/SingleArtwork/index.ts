@@ -1,0 +1,1 @@
+export { SingleArtwork } from './SingleArtwork';

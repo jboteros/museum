@@ -36,6 +36,4 @@ export const requestGetArtworks = ({
   });
 
 export const requestGetArtwork = ({ id }: ArtworkParameters) =>
-  instanceAxios.post(RequestType.GET_ARTWORKS, {
-    id,
-  });
+  instanceAxios.post(`${RequestType.GET_ARTWORKS}/${id}`);

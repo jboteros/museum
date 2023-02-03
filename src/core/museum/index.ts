@@ -12,6 +12,7 @@ interface EventSlice {
   artworks: StateArtworks;
   artwork: Artwork | null;
   loadingArtworks: boolean;
+  loadingArtwork: boolean;
 }
 
 const eventSlice = createSlice({
@@ -24,6 +25,7 @@ const eventSlice = createSlice({
     artworks: [],
     artwork: null,
     loadingArtworks: false,
+    loadingArtwork: false,
   } as EventSlice,
   reducers: {
     setLoadingEvents(state, action: PayloadAction<boolean>) {
@@ -50,8 +52,14 @@ const eventSlice = createSlice({
     resetArtworks(state) {
       state.artworks = [];
     },
+    setLoadingArtwork(state, action: PayloadAction<boolean>) {
+      state.loadingArtwork = action.payload;
+    },
     setArtwork(state, action: PayloadAction<Artwork>) {
       state.artwork = action.payload;
+    },
+    resetArtwork(state) {
+      state.artwork = null;
     },
   },
 });
@@ -65,7 +73,9 @@ export const {
   setLoadingArtworks,
   setArtworks,
   setArtwork,
+  setLoadingArtwork,
   resetArtworks,
+  resetArtwork,
 } = eventSlice.actions;
 
 export default eventSlice.reducer;

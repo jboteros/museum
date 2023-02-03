@@ -84,10 +84,8 @@ export const EventsCarrousel = () => {
   const { events = [] } = useAppSelector(state => state.museum);
 
   const handleSelectEvent = useCallback(
-    (event: Event) => {
-      console.log('Selected event', event.id);
-      navigation.navigate(routeNames.SINGLE_EVENT, { id: event.id });
-    },
+    (event: Event) =>
+      navigation.navigate(routeNames.SINGLE_EVENT, { id: event.id }),
     [navigation],
   );
 

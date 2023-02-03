@@ -32,7 +32,7 @@ const handleError = (e: AxiosError<any>) => {
     }
 
     if (e.response.data && e.response.data.message) {
-      console.log('[Response Error Message]: ' + e.response.data.message);
+      console.error('[Response Error Message]: ' + e.response.data.message);
       message = e.response.data.message;
     }
 
@@ -45,9 +45,9 @@ const handleError = (e: AxiosError<any>) => {
     return Promise.reject(error);
   } else if (e.request) {
     // client never received a response, or request never left
-    console.log('request error ' + e);
+    console.error('request error ' + e);
   } else {
-    console.log('axios error ' + e);
+    console.error('axios error ' + e);
   }
 
   throw e;

@@ -13,6 +13,7 @@ import {
   routeNames,
   useSafeAreaInsets,
   useNavigation,
+  NavigationProps,
 } from '@/navigation';
 import { useAppSelector } from '@/core';
 import { useActions } from './useActions';
@@ -21,7 +22,7 @@ import { AppText, Arrow, SeparateChildren } from '@/components';
 import { format } from 'date-fns';
 
 export const SingleEvent = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
   const insets = useSafeAreaInsets();
   const { handleGetEvent, handleResetEvent } = useActions();
 
@@ -133,7 +134,7 @@ export const SingleEvent = () => {
             )}
             <AppText.Headline5
               style={{ color: colors.alphaColor(colors.black, 0.8) }}>
-              {event?.short_description}
+              {event?.short_description.replace(/(<([^>]+)>)/gi, '')}
             </AppText.Headline5>
             {event?.list_description && (
               <AppText.Subhead

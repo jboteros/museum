@@ -5,7 +5,12 @@ import {
   createStackNavigator,
   RootStackParamList,
 } from './index';
-import { HomeScreen, SingleEvent } from '@/screens/';
+import {
+  HomeScreen,
+  SingleEvent,
+  SingleArtwork,
+  ImageViewerModal,
+} from '@/screens/';
 
 export const Router = () => {
   const RootStack = createStackNavigator<RootStackParamList>();
@@ -28,6 +33,27 @@ export const Router = () => {
           <RootStack.Screen
             name={routeNames.SINGLE_EVENT}
             component={SingleEvent}
+            options={{
+              animationEnabled: true,
+              headerShown: false,
+            }}
+          />
+          <RootStack.Screen
+            name={routeNames.SINGLE_ARTWORK}
+            component={SingleArtwork}
+            options={{
+              animationEnabled: true,
+              headerShown: false,
+            }}
+          />
+        </RootStack.Group>
+        <RootStack.Group
+          screenOptions={{
+            presentation: 'modal',
+          }}>
+          <RootStack.Screen
+            name={routeNames.IMAGE_VIEWER}
+            component={ImageViewerModal}
             options={{
               animationEnabled: true,
               headerShown: false,

@@ -5,6 +5,10 @@ export const colors = {
   primaryLight: '#ed4d62',
   primaryDark: '#7e0013',
   silver: '#dedede',
+  silverDark: '#767676',
+
+  accentPrimary: 'rgba(181,9,56,1)',
+  accentPrimaryLight: 'rgb(181,9,56)',
 
   alphaColor: (color: string, alpha: number | undefined = 1) => {
     if (color.includes('rgba')) {
