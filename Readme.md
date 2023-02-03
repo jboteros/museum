@@ -9,15 +9,15 @@ Art Institute of Chicago's App **Prototype**. created using **React Native** + *
 
 #### DONE
 
-- List upcoming events (Fixed numbers)
-- Events Detail Screen with **CTA** button
-- Custom animatable header
-- Scroll to Up component
-- Artworks with pagination
+- list upcoming events (Fixed numbers)
+- events Detail Screen with **CTA** button
+- custom animatable header
+- scroll to Up component
+- artworks with pagination
   - initial Artworks fetch
   - fetch more Artworks
   - refetch Artworks
-  - Artwork Detail Screen
+  - artwork Detail Screen
     - header image
     - basic Artwork info
     - detailed Artwork info
@@ -26,8 +26,9 @@ Art Institute of Chicago's App **Prototype**. created using **React Native** + *
 
 #### TODO
 
-- Add Push notification system
-- Add Integration tests
+- add Push notification system
+- add Integration tests
+- refactorize all inline styles
 
 # Setup
 
