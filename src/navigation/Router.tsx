@@ -5,7 +5,7 @@ import {
   createStackNavigator,
   RootStackParamList,
 } from './index';
-import { HomeScreen } from '@/screens/';
+import { HomeScreen, SingleEvent } from '@/screens/';
 
 export const Router = () => {
   const RootStack = createStackNavigator<RootStackParamList>();
@@ -21,6 +21,19 @@ export const Router = () => {
             headerShown: false,
           }}
         />
+        <RootStack.Group
+          screenOptions={{
+            presentation: 'card',
+          }}>
+          <RootStack.Screen
+            name={routeNames.SINGLE_EVENT}
+            component={SingleEvent}
+            options={{
+              animationEnabled: true,
+              headerShown: false,
+            }}
+          />
+        </RootStack.Group>
       </RootStack.Navigator>
     </NavigationContainer>
   );

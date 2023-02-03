@@ -11,7 +11,6 @@ import {
   Platform,
   RefreshControl,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -19,10 +18,12 @@ import { useAppSelector } from '@/core';
 import { Artwork } from '@/core/museum/types';
 import {
   AppText,
+  Arrow,
   EventsCarrousel,
   SectionTitle,
   SeparateChildren,
 } from '@/components';
+import { useSafeAreaInsets } from '@/navigation';
 import { colors, sizes } from '@/styles';
 import { useActions } from './useActions';
 import { NotificationsIcon } from './NotificationsIcon';
@@ -52,15 +53,15 @@ const _renderItem = ({ item }: { item?: Artwork }) => {
         <View
           style={{
             flex: 0,
-            // shadowColor: '#000',
-            // shadowOffset: {
-            //   width: 0,
-            //   height: 2,
-            // },
-            // shadowOpacity: 0.25,
-            // shadowRadius: 3.84,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
 
-            // elevation: 5,
+            elevation: 5,
           }}>
           {item?.thumbnail && (
             <Image
@@ -85,8 +86,19 @@ const _renderItem = ({ item }: { item?: Artwork }) => {
           marginHorizontal: sizes.contentMargin.full,
         }}>
         <SeparateChildren Separator={() => <View style={{ height: 5 }} />}>
-          <AppText.Headline5>{item.title}</AppText.Headline5>
-          <AppText.Body1>{item.artist_title}</AppText.Body1>
+          <AppText.Subtitle2
+            style={{
+              color: colors.alphaColor(colors.black, 0.8),
+            }}>
+            {item.title}
+          </AppText.Subtitle2>
+          <AppText.Body1>
+            {item.artist_title}
+            {item.artist_title && item.fiscal_year && '  |  '}
+            {item.fiscal_year && (
+              <AppText.Overline2>{item.fiscal_year}</AppText.Overline2>
+            )}
+          </AppText.Body1>
         </SeparateChildren>
       </View>
     </View>
@@ -94,6 +106,7 @@ const _renderItem = ({ item }: { item?: Artwork }) => {
 };
 
 export function HomeScreen(): JSX.Element {
+  const insets = useSafeAreaInsets();
   const flatListRef = useRef<FlatList>(null);
 
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -209,12 +222,21 @@ export function HomeScreen(): JSX.Element {
         })}
       />
       <TouchableOpacity
-        onPress={() => {
-          flatListRef.current?.scrollToOffset({ animated: true, offset: -100 });
-          handleGetArtworks;
-        }}
-        style={{ position: 'absolute', bottom: 20, right: 20 }}>
-        <Text>{artworks.length}</Text>
+        onPress={() =>
+          flatListRef.current?.scrollToOffset({ animated: true, offset: -100 })
+        }
+        style={{
+          position: 'absolute',
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          right: 10,
+          bottom: insets.bottom + 10,
+          backgroundColor: colors.alphaColor(colors.primary, 0.9),
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Arrow direction="up" />
       </TouchableOpacity>
     </View>
   );

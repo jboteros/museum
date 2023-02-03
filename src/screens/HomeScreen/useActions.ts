@@ -19,8 +19,6 @@ export const useActions = () => {
     setOffsetArtworks(1);
   }, [dispatch]);
 
-  console.log('global ===>', offsetArtworks);
-
   const handleGetEvents = useCallback(async () => {
     dispatch(setLoadingEvents(true));
     try {
@@ -52,12 +50,8 @@ export const useActions = () => {
 
         const { data: response } = result;
 
-        console.log('🚀 ~ response', response);
-        console.log('🚀 ~ response', response.data.length);
-        console.log('🚀 ~ current_page', response.pagination.current_page);
-
         setOffsetArtworks(response.pagination.current_page + 1);
-        console.log('===>', offsetArtworks);
+
         dispatch(setArtworks(response.data));
       } catch (error) {
         const message =

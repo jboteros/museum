@@ -8,11 +8,18 @@ import { useAppSelector } from '@/core';
 
 import { colors, sizes } from '@/styles';
 import { AppText, SeparateChildren } from '@/components';
+import { NavigationProps, routeNames, useNavigation } from '@/navigation';
 
 const SCALE_FACTOR_WIDTH = 0.6;
 const SCALE_FACTOR_HEIGHT = 0.8;
 
-const _renderItem = ({ item }: { item?: Event }) => {
+const _renderItem = ({
+  item,
+  onSelect,
+}: {
+  item?: Event;
+  onSelect: () => void;
+}) => {
   if (!item) {
     return null;
   }
@@ -20,6 +27,7 @@ const _renderItem = ({ item }: { item?: Event }) => {
   return (
     <TouchableOpacity
       key={item.id}
+      onPress={onSelect}
       style={{
         height: sizes.deviceWidth * SCALE_FACTOR_HEIGHT,
         padding: 5,
@@ -32,7 +40,10 @@ const _renderItem = ({ item }: { item?: Event }) => {
       <Image
         resizeMode="cover"
         source={{ uri: item.image_url }}
-        style={StyleSheet.absoluteFill}
+        style={{
+          backgroundColor: colors.silver,
+          ...StyleSheet.absoluteFillObject,
+        }}
       />
       <View
         style={{
@@ -69,11 +80,21 @@ const _renderItem = ({ item }: { item?: Event }) => {
 };
 
 export const EventsCarrousel = () => {
+  const navigation = useNavigation<NavigationProps>();
   const { events = [] } = useAppSelector(state => state.museum);
 
+  const handleSelectEvent = useCallback(
+    (event: Event) => {
+      console.log('Selected event', event.id);
+      navigation.navigate(routeNames.SINGLE_EVENT, { id: event.id });
+    },
+    [navigation],
+  );
+
   const renderItem = useCallback(
-    ({ item }: { item: Event }) => _renderItem({ item }),
-    [],
+    ({ item }: { item: Event }) =>
+      _renderItem({ item, onSelect: () => handleSelectEvent(item) }),
+    [handleSelectEvent],
   );
 
   return (

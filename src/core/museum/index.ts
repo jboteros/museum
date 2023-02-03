@@ -6,8 +6,9 @@ type StateArtworks = [] | Artwork[];
 
 interface EventSlice {
   events: StateEvents;
-  event: Event | null;
   loadingEvents: boolean;
+  event: Event | null;
+  loadingEvent: boolean;
   artworks: StateArtworks;
   artwork: Artwork | null;
   loadingArtworks: boolean;
@@ -17,8 +18,9 @@ const eventSlice = createSlice({
   name: 'eventSlice',
   initialState: {
     events: [],
-    event: null,
     loadingEvents: false,
+    event: null,
+    loadingEvent: false,
     artworks: [],
     artwork: null,
     loadingArtworks: false,
@@ -29,6 +31,12 @@ const eventSlice = createSlice({
     },
     setEvents(state, action: PayloadAction<StateEvents>) {
       state.events = action.payload;
+    },
+    resetEvent(state) {
+      state.event = null;
+    },
+    setLoadingEvent(state, action: PayloadAction<boolean>) {
+      state.loadingEvent = action.payload;
     },
     setEvent(state, action: PayloadAction<Event>) {
       state.event = action.payload;
@@ -51,7 +59,9 @@ const eventSlice = createSlice({
 export const {
   setLoadingEvents,
   setEvents,
+  setLoadingEvent,
   setEvent,
+  resetEvent,
   setLoadingArtworks,
   setArtworks,
   setArtwork,

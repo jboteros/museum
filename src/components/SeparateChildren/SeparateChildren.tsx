@@ -15,7 +15,7 @@ export function SeparateChildren({ children, Separator }: Props) {
     const childrenArray = Children.toArray(children);
     return childrenArray
       .filter(Boolean)
-      .reduce<Array<React.ReactNode>>(
+      .reduce<Array<ReactNode>>(
         (r, n, idx) =>
           idx < childrenArray.length - 1
             ? [...r, n, <Separator key={`separator-${idx}`} />]
