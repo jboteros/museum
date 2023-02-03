@@ -2,13 +2,11 @@ import React, { useCallback } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { format } from 'date-fns';
 import Carousel from 'react-native-snap-carousel';
-import { Event } from '@/core/museum/types';
-
 import { useAppSelector } from '@/core';
-
 import { colors, sizes } from '@/styles';
 import { AppText, SeparateChildren } from '@/components';
 import { NavigationProps, routeNames, useNavigation } from '@/navigation';
+import { Event } from '@/core/museum/types';
 
 const SCALE_FACTOR_WIDTH = 0.6;
 const SCALE_FACTOR_HEIGHT = 0.8;

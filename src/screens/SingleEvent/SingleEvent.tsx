@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { format } from 'date-fns';
 import {
   useRoute,
   RouteProp,
@@ -16,10 +17,10 @@ import {
   NavigationProps,
 } from '@/navigation';
 import { useAppSelector } from '@/core';
-import { useActions } from './useActions';
 import { colors, sizes } from '@/styles';
 import { AppText, Arrow, SeparateChildren } from '@/components';
-import { format } from 'date-fns';
+import { useActions } from './useActions';
+import { generateLocalNotification } from '@/util/notificationsHelper';
 
 export const SingleEvent = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -183,10 +184,19 @@ export const SingleEvent = () => {
           position: 'absolute',
           bottom: 0,
           width: sizes.deviceWidth,
-          paddingBottom: insets.bottom,
+          paddingBottom: insets.bottom + 5,
           paddingTop: 10,
         }}>
         <TouchableOpacity
+          onPress={() => {
+            generateLocalNotification({
+              title: event?.title,
+              body: event?.short_description.replace(/(<([^>]+)>)/gi, ''),
+              id: event?.id.toString(),
+              image: event?.image_url,
+              diffUnit: 'minutes',
+            });
+          }}
           style={{
             width: '80%',
             alignSelf: 'center',
