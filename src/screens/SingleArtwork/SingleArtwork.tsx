@@ -49,12 +49,12 @@ export const SingleArtwork = () => {
   }, [handleGetArtwork, id, handleResetArtwork]);
 
   const publicationHistory = useMemo(
-    () => artwork?.publication_history.split('\n\n') ?? [],
+    () => artwork?.publication_history?.split('\n\n') ?? [],
     [artwork],
   );
 
   const exhibitionHistory = useMemo(
-    () => artwork?.exhibition_history.split('\n\n') ?? [],
+    () => artwork?.exhibition_history?.split('\n\n') ?? [],
     [artwork],
   );
 
@@ -281,7 +281,7 @@ export const SingleArtwork = () => {
                       color: colors.silverDark,
                       paddingHorizontal: sizes.contentMargin.full,
                     }}>
-                    • {publication.replace(/(<([^>]+)>)/gi, '')}
+                    • {publication?.replace(/(<([^>]+)>)/gi, '')}
                   </AppText>
                 </View>
               ))}
@@ -300,7 +300,7 @@ export const SingleArtwork = () => {
                       color: colors.silverDark,
                       paddingHorizontal: sizes.contentMargin.full,
                     }}>
-                    • {exhibition.replace(/(<([^>]+)>)/gi, '')}
+                    • {exhibition?.replace(/(<([^>]+)>)/gi, '')}
                   </AppText>
                 </View>
               ))}
