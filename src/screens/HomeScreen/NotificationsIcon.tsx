@@ -1,6 +1,6 @@
-import { colors } from '@/styles';
-import * as React from 'react';
+import React from 'react';
 import Svg, { Path } from 'react-native-svg';
+import { colors } from '@/styles';
 
 type Props = {
   color?: string;

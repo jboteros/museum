@@ -269,43 +269,46 @@ export const SingleArtwork = () => {
         )}
 
         <View style={{ paddingHorizontal: sizes.contentMargin.half }}>
-          <ExpandRow headerTitle="Publication History">
-            <SeparateChildren
-              Separator={() =>
-                (<View style={{ height: 10 }} />) as ReactElement
-              }>
-              {publicationHistory.filter(Boolean).map(publication => (
-                <View key={publication}>
-                  <AppText
-                    style={{
-                      color: colors.silverDark,
-                      paddingHorizontal: sizes.contentMargin.full,
-                    }}>
-                    • {publication?.replace(/(<([^>]+)>)/gi, '')}
-                  </AppText>
-                </View>
-              ))}
-            </SeparateChildren>
-          </ExpandRow>
-
-          <ExpandRow headerTitle="Exhibition History">
-            <SeparateChildren
-              Separator={() =>
-                (<View style={{ height: 10 }} />) as ReactElement
-              }>
-              {exhibitionHistory.filter(Boolean).map(exhibition => (
-                <View key={exhibition}>
-                  <AppText
-                    style={{
-                      color: colors.silverDark,
-                      paddingHorizontal: sizes.contentMargin.full,
-                    }}>
-                    • {exhibition?.replace(/(<([^>]+)>)/gi, '')}
-                  </AppText>
-                </View>
-              ))}
-            </SeparateChildren>
-          </ExpandRow>
+          {publicationHistory.length > 0 && (
+            <ExpandRow headerTitle="Publication History">
+              <SeparateChildren
+                Separator={() =>
+                  (<View style={{ height: 10 }} />) as ReactElement
+                }>
+                {publicationHistory.filter(Boolean).map(publication => (
+                  <View key={publication}>
+                    <AppText
+                      style={{
+                        color: colors.silverDark,
+                        paddingHorizontal: sizes.contentMargin.full,
+                      }}>
+                      • {publication?.replace(/(<([^>]+)>)/gi, '')}
+                    </AppText>
+                  </View>
+                ))}
+              </SeparateChildren>
+            </ExpandRow>
+          )}
+          {exhibitionHistory.length > 0 && (
+            <ExpandRow headerTitle="Exhibition History">
+              <SeparateChildren
+                Separator={() =>
+                  (<View style={{ height: 10 }} />) as ReactElement
+                }>
+                {exhibitionHistory.filter(Boolean).map(exhibition => (
+                  <View key={exhibition}>
+                    <AppText
+                      style={{
+                        color: colors.silverDark,
+                        paddingHorizontal: sizes.contentMargin.full,
+                      }}>
+                      • {exhibition?.replace(/(<([^>]+)>)/gi, '')}
+                    </AppText>
+                  </View>
+                ))}
+              </SeparateChildren>
+            </ExpandRow>
+          )}
         </View>
         <View
           style={{

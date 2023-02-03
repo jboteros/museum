@@ -67,15 +67,6 @@ const _renderItem = ({
         <View
           style={{
             flex: 0,
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-
-            elevation: 5,
           }}>
           {item?.thumbnail && (
             <Image
@@ -202,7 +193,7 @@ export function HomeScreen(): JSX.Element {
 
   const renderHeader = useCallback(
     () => (
-      <View style={{ marginTop: insets.top + 10 }}>
+      <View style={{ marginTop: insets.top }}>
         <SectionTitle title="Events" />
         <EventsCarrousel />
         <SectionTitle title="Artworks" />
@@ -246,6 +237,7 @@ export function HomeScreen(): JSX.Element {
           style={{ width: 70, height: 70 }}
         />
       </Animated.View>
+
       <FlatList
         ref={flatListRef}
         data={artworks}
@@ -256,7 +248,10 @@ export function HomeScreen(): JSX.Element {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={renderHeader()}
         onEndReachedThreshold={0.1}
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingTop: Platform.OS === 'ios' ? insets.top : insets.top + 50,
+        }}
         onEndReached={handleEndReached}
         ItemSeparatorComponent={() =>
           (
@@ -283,7 +278,7 @@ export function HomeScreen(): JSX.Element {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={handleRefreshPull}
-              progressBackgroundColor={colors.primary}
+              progressBackgroundColor={colors.silver}
               colors={[colors.primary, colors.primaryDark, colors.primaryLight]}
             />
           ),
