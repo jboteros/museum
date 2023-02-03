@@ -11,6 +11,7 @@ Art Institute of Chicago's App **Prototype**. created using **React Native** + *
 
 - list upcoming events (Fixed numbers)
 - events Detail Screen with **CTA** button
+  - local Push Notification system 💪 (Notifications are displayed one minute after press the CTA)
 - custom animatable header
 - scroll to Up component
 - artworks with pagination
@@ -26,7 +27,6 @@ Art Institute of Chicago's App **Prototype**. created using **React Native** + *
 
 #### TODO
 
-- add Push notification system
 - add Integration tests
 - refactorize all inline styles
 
