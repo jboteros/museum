@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import {
@@ -6,12 +6,20 @@ import {
   setEvents,
   setLoadingArtworks,
   setArtworks,
+  resetArtworks,
 } from '@/core/museum';
 import { requestGetArtworks, requestGetEvents } from '@/core/museum/actions';
 
 export const useActions = () => {
-  const [offsetArtworks, setOffsetArtworks] = useState(0);
   const dispatch = useDispatch();
+  const [offsetArtworks, setOffsetArtworks] = useState<number>(0);
+
+  useEffect(() => {
+    dispatch(resetArtworks());
+    setOffsetArtworks(1);
+  }, [dispatch]);
+
+  console.log('global ===>', offsetArtworks);
 
   const handleGetEvents = useCallback(async () => {
     dispatch(setLoadingEvents(true));
@@ -34,12 +42,20 @@ export const useActions = () => {
     async (page?: number | null) => {
       dispatch(setLoadingArtworks(true));
       try {
+        if (page === 1) {
+          dispatch(resetArtworks());
+        }
         const result = await requestGetArtworks({
           limit: 10,
           page: page || offsetArtworks,
         });
+
         const { data: response } = result;
-        console.log('🚀 ~ response', response.length);
+
+        console.log('🚀 ~ response', response);
+        console.log('🚀 ~ response', response.data.length);
+        console.log('🚀 ~ current_page', response.pagination.current_page);
+
         setOffsetArtworks(response.pagination.current_page + 1);
         console.log('===>', offsetArtworks);
         dispatch(setArtworks(response.data));
@@ -50,7 +66,7 @@ export const useActions = () => {
             : 'handleGetArtworks unknown error.';
         throw new Error(message);
       } finally {
-        dispatch(setLoadingEvents(false));
+        dispatch(setLoadingArtworks(false));
       }
     },
     [dispatch, offsetArtworks],

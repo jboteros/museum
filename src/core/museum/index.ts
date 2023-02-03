@@ -39,6 +39,9 @@ const eventSlice = createSlice({
     setArtworks(state, action: PayloadAction<StateArtworks>) {
       state.artworks = [...state.artworks, ...action.payload];
     },
+    resetArtworks(state) {
+      state.artworks = [];
+    },
     setArtwork(state, action: PayloadAction<Artwork>) {
       state.artwork = action.payload;
     },
@@ -52,6 +55,7 @@ export const {
   setLoadingArtworks,
   setArtworks,
   setArtwork,
+  resetArtworks,
 } = eventSlice.actions;
 
 export default eventSlice.reducer;
