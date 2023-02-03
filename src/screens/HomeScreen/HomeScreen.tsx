@@ -291,7 +291,10 @@ export function HomeScreen(): JSX.Element {
       />
       <TouchableOpacity
         onPress={() =>
-          flatListRef.current?.scrollToOffset({ animated: true, offset: -100 })
+          flatListRef.current?.scrollToOffset({
+            animated: true,
+            offset: -insets.top * 2,
+          })
         }>
         <Animated.View
           style={[

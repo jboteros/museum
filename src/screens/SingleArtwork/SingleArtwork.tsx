@@ -241,6 +241,7 @@ export const SingleArtwork = () => {
                   width: 0,
                   height: 2,
                 },
+                marginVertical: sizes.contentMargin.double,
                 shadowOpacity: 0.25,
                 shadowRadius: 3.84,
 
@@ -251,8 +252,9 @@ export const SingleArtwork = () => {
                   resizeMode="contain"
                   style={{
                     width: '90%',
+
                     alignSelf: 'center',
-                    marginVertical: 10,
+                    marginVertical: sizes.contentMargin.half,
                     alignItems: 'center',
                     aspectRatio:
                       artwork?.thumbnail?.width / artwork?.thumbnail?.height,
