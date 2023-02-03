@@ -281,7 +281,7 @@ export const SingleArtwork = () => {
                       color: colors.silverDark,
                       paddingHorizontal: sizes.contentMargin.full,
                     }}>
-                    • {publication}
+                    • {publication.replace(/(<([^>]+)>)/gi, '')}
                   </AppText>
                 </View>
               ))}
@@ -293,14 +293,14 @@ export const SingleArtwork = () => {
               Separator={() =>
                 (<View style={{ height: 10 }} />) as ReactElement
               }>
-              {exhibitionHistory.filter(Boolean).map(publication => (
-                <View key={publication}>
+              {exhibitionHistory.filter(Boolean).map(exhibition => (
+                <View key={exhibition}>
                   <AppText
                     style={{
                       color: colors.silverDark,
                       paddingHorizontal: sizes.contentMargin.full,
                     }}>
-                    • {publication}
+                    • {exhibition.replace(/(<([^>]+)>)/gi, '')}
                   </AppText>
                 </View>
               ))}
