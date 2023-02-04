@@ -27,8 +27,7 @@ Art Institute of Chicago's App **Prototype**. created using **React Native** + *
 
 #### TODO
 
-- add Integration tests
-- refactorize all inline styles
+- complete Integration tests (25% missing)
 
 # Setup
 
