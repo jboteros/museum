@@ -4,7 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
 import { store } from '@/core';
-import { Router } from '@/navigation';
+import { Router, SafeAreaProvider } from '@/navigation';
 
 const persistor = persistStore(store);
 
@@ -12,7 +12,9 @@ export const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Router />
+        <SafeAreaProvider>
+          <Router />
+        </SafeAreaProvider>
       </PersistGate>
     </Provider>
   );

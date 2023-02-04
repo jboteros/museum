@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tests => SectionTitle should match snapshot 1`] = `
+<Text
+  style={
+    [
+      {
+        "fontSize": 54,
+        "fontWeight": "600",
+        "letterSpacing": 0.25,
+      },
+      {
+        "color": "#b50938",
+        "fontWeight": "bold",
+        "marginVertical": 20,
+        "paddingHorizontal": 10,
+      },
+    ]
+  }
+>
+  This is a title value
+</Text>
+`;

@@ -1,18 +1,13 @@
 export {
   useSafeAreaInsets,
   SafeAreaProvider,
-  SafeAreaView,
 } from 'react-native-safe-area-context';
 
 export {
-  useFocusEffect,
   useNavigation,
   useRoute,
-  CommonActions,
   NavigationContainer,
-  getFocusedRouteNameFromRoute,
-  useNavigationContainerRef,
-  StackActions,
+  createNavigationContainerRef,
 } from '@react-navigation/native';
 export type { RouteProp } from '@react-navigation/native';
 
@@ -24,7 +19,6 @@ import { routeNames } from './routeNames';
 export { routeNames } from './routeNames';
 
 export type RootStackParamList = {
-  [routeNames.SPLASH_LOADER]: undefined;
   [routeNames.HOME_SCREEN]: undefined;
   [routeNames.SINGLE_EVENT]: { id: number };
   [routeNames.SINGLE_ARTWORK]: { id: number };

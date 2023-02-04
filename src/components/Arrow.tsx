@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Svg, { Path } from 'react-native-svg';
 import { ColorValue, View } from 'react-native';
 import { colors } from '@/styles';
@@ -10,10 +10,7 @@ type Props = {
 
 const DIRECTIONS = ['up', 'right', 'down', 'left'];
 
-export const Arrow: React.FC<Props> = ({
-  direction,
-  color = colors.silver,
-}) => {
+export const Arrow: FC<Props> = ({ direction, color = colors.silver }) => {
   const rotationAngle = (DIRECTIONS.indexOf(direction) * 90 + 180) % 360;
   return (
     <View

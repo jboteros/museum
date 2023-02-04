@@ -1,4 +1,4 @@
-export interface Artwork {
+export interface ArtworkProps {
   id: number;
   api_model: string;
   api_link: string;
@@ -119,28 +119,28 @@ export interface Contexts {
   groupings: string[];
 }
 
-export interface Event {
+export interface EventProps {
   id: number;
   api_model: string;
   api_link: string;
   title: string;
-  title_display: boolean;
+  title_display: string;
   image_url: string;
   hero_caption: string;
   short_description: string;
-  header_description: string;
+  header_description?: string | null;
   list_description: string;
   description: string;
   location: string;
-  event_type_id: number;
+  event_type_id: number | null;
   alt_event_type_ids: string[];
   audience_id: number;
   alt_audience_ids: string[];
-  program_ids: string[];
+  program_ids: number[];
   program_titles: string[];
   is_ticketed: boolean;
-  ticketed_event_id: number;
-  rsvp_link: string;
+  ticketed_event_id: number | null;
+  rsvp_link: string | null;
   buy_button_text: string;
   buy_button_caption: string;
   is_registration_required: boolean;
@@ -151,8 +151,8 @@ export interface Event {
   is_admission_required: boolean;
   is_after_hours: boolean;
   is_virtual_event: boolean;
-  virtual_event_url: string;
-  virtual_event_passcode: string;
+  virtual_event_url: string | null;
+  virtual_event_passcode: string | null;
   start_date: string;
   end_date: string;
   start_time: string;
@@ -161,7 +161,7 @@ export interface Event {
   door_time: string | null;
   layout_type: number;
   slug: string;
-  entrance: string;
+  entrance: string | null;
   join_url: string | null;
   survey_url: string | null;
   event_host_id: string | null;

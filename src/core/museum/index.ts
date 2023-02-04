@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Event, Artwork } from './types';
+import { EventProps, ArtworkProps } from './types';
 
-type StateEvents = [] | Event[];
-type StateArtworks = [] | Artwork[];
+type StateEvents = [] | EventProps[];
+type StateArtworks = [] | ArtworkProps[];
 
 interface EventSlice {
   events: StateEvents;
   loadingEvents: boolean;
-  event: Event | null;
+  event: EventProps | null;
   loadingEvent: boolean;
   artworks: StateArtworks;
-  artwork: Artwork | null;
+  artwork: ArtworkProps | null;
   loadingArtworks: boolean;
   loadingArtwork: boolean;
 }
@@ -40,7 +40,7 @@ const eventSlice = createSlice({
     setLoadingEvent(state, action: PayloadAction<boolean>) {
       state.loadingEvent = action.payload;
     },
-    setEvent(state, action: PayloadAction<Event>) {
+    setEvent(state, action: PayloadAction<EventProps>) {
       state.event = action.payload;
     },
     setLoadingArtworks(state, action: PayloadAction<boolean>) {
@@ -55,7 +55,7 @@ const eventSlice = createSlice({
     setLoadingArtwork(state, action: PayloadAction<boolean>) {
       state.loadingArtwork = action.payload;
     },
-    setArtwork(state, action: PayloadAction<Artwork>) {
+    setArtwork(state, action: PayloadAction<ArtworkProps>) {
       state.artwork = action.payload;
     },
     resetArtwork(state) {

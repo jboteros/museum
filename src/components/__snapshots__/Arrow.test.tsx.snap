@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tests => SectionTitle should match snapshot 1`] = `
+<View
+  style={
+    {
+      "transform": [
+        {
+          "rotate": "90deg",
+        },
+      ],
+    }
+  }
+>
+  <RNSVGSvgView
+    align="xMidYMid"
+    bbHeight="7"
+    bbWidth="11"
+    fill="none"
+    focusable={false}
+    height={7}
+    meetOrSlice={0}
+    minX={0}
+    minY={0}
+    style={
+      [
+        {
+          "backgroundColor": "transparent",
+          "borderWidth": 0,
+        },
+        {
+          "flex": 0,
+          "height": 7,
+          "width": 11,
+        },
+      ]
+    }
+    vbHeight={7}
+    vbWidth={11}
+    width={11}
+  >
+    <RNSVGGroup
+      fill={null}
+      propList={
+        [
+          "fill",
+        ]
+      }
+    >
+      <RNSVGPath
+        d="M1.068 
+          1.329a.25.25 0 0 0 .01.353l4.25 4a.25.25 0 0 0 .343 0l4.25-4a.25.25 
+          0 1 0-.342-.364L5.5 5.157l-4.079-3.84a.25.25 0 0 0-.353.012z"
+        fill={
+          {
+            "payload": 4292796126,
+            "type": 0,
+          }
+        }
+        propList={
+          [
+            "fill",
+            "stroke",
+            "strokeWidth",
+          ]
+        }
+        stroke={
+          {
+            "payload": 4292796126,
+            "type": 0,
+          }
+        }
+        strokeWidth="2"
+      />
+    </RNSVGGroup>
+  </RNSVGSvgView>
+</View>
+`;

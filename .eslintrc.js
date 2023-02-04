@@ -5,7 +5,9 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       rules: {
-        'react-native/no-inline-styles': 'off',
+        'react-native/no-inline-styles': 'error',
+        'no-unused-vars': 'error',
+        'react-native/no-unused-styles': 'warn',
       },
     },
   ],

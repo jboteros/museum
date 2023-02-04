@@ -61,46 +61,13 @@ export const SingleArtwork = () => {
   if (loadingArtwork) {
     return (
       <View>
-        <View
-          style={{
-            width: sizes.deviceWidth,
-            height: sizes.deviceWidth,
-            borderRadius: sizes.borderRadius.big,
-            backgroundColor: colors.silver,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+        <View style={styles.skeletonContainer}>
           <ActivityIndicator size="small" />
         </View>
-        <View
-          style={{
-            flex: 0,
-            paddingHorizontal: sizes.contentMargin.full,
-          }}>
-          <View
-            style={{
-              marginTop: 10,
-              width: '100%',
-              height: 60,
-              backgroundColor: colors.silver,
-            }}
-          />
-          <View
-            style={{
-              marginTop: 10,
-              width: '100%',
-              height: 200,
-              backgroundColor: colors.silver,
-            }}
-          />
-          <View
-            style={{
-              marginTop: 10,
-              width: '100%',
-              height: 200,
-              backgroundColor: colors.silver,
-            }}
-          />
+        <View style={styles.skeletonTitleContainer}>
+          <View style={styles.skeletonItem} />
+          <View style={styles.skeletonItem} />
+          <View style={styles.skeletonItem} />
         </View>
       </View>
     );
@@ -129,26 +96,18 @@ export const SingleArtwork = () => {
 
         <View style={{ paddingHorizontal: sizes.contentMargin.double }}>
           <SeparateChildren
-            Separator={() => (<View style={{ height: 20 }} />) as ReactElement}>
+            Separator={() =>
+              (<View style={styles.separator} />) as ReactElement
+            }>
             <AppText.Headline2>{artwork?.title}</AppText.Headline2>
             <AppText.Body1>{artwork?.date_display}</AppText.Body1>
             <AppText.Body1>{artwork?.artist_display}</AppText.Body1>
 
             <AppText.Body2>{artwork?.thumbnail.alt_text}</AppText.Body2>
-            <View style={{ marginVertical: 20 }}>
+            <View style={styles.listContainer}>
               <SeparateChildren
                 Separator={() =>
-                  (
-                    <View
-                      style={{
-                        width: '95%',
-                        alignSelf: 'center',
-                        height: StyleSheet.hairlineWidth,
-                        marginVertical: 15,
-                        backgroundColor: colors.alphaColor(colors.black, 0.2),
-                      }}
-                    />
-                  ) as ReactElement
+                  (<View style={styles.listSeparator} />) as ReactElement
                 }>
                 <View style={styles.textBlock}>
                   <AppText.ControlSelected style={styles.primaryText}>
@@ -225,40 +184,29 @@ export const SingleArtwork = () => {
                 imageId: artwork.image_id,
               });
             }}
-            style={{
-              width: sizes.deviceWidth * 0.8,
-              alignSelf: 'center',
-              backgroundColor: artwork.color
-                ? `hsl(${artwork.color.h}, ${artwork.color.s}%, ${artwork.color.l}%)`
-                : colors.primary,
-              justifyContent: 'center',
-            }}>
-            <View
-              style={{
-                flex: 0,
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                marginVertical: sizes.contentMargin.double,
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-
-                elevation: 5,
-              }}>
+            style={[
+              styles.artworkContainer,
+              {
+                backgroundColor: artwork.color
+                  ? `hsl(${artwork.color.h}, ${artwork.color.s}%, ${artwork.color.l}%)`
+                  : colors.primary,
+              },
+            ]}>
+            <View style={styles.artworkImageContainer}>
               {artwork?.thumbnail && (
                 <Image
                   resizeMode="contain"
-                  style={{
-                    width: '90%',
-
-                    alignSelf: 'center',
-                    marginVertical: sizes.contentMargin.half,
-                    alignItems: 'center',
-                    aspectRatio:
-                      artwork?.thumbnail?.width / artwork?.thumbnail?.height,
-                  }}
+                  style={[
+                    styles.artworkImage,
+                    {
+                      aspectRatio:
+                        artwork?.thumbnail?.width / artwork?.thumbnail?.height,
+                    },
+                    {
+                      aspectRatio:
+                        artwork?.thumbnail?.width / artwork?.thumbnail?.height,
+                    },
+                  ]}
                   source={{
                     uri: `https://www.artic.edu/iiif/2/${artwork.image_id}/full/200,/0/default.jpg`,
                   }}
@@ -273,7 +221,7 @@ export const SingleArtwork = () => {
             <ExpandRow headerTitle="Publication History">
               <SeparateChildren
                 Separator={() =>
-                  (<View style={{ height: 10 }} />) as ReactElement
+                  (<View style={styles.separator} />) as ReactElement
                 }>
                 {publicationHistory.filter(Boolean).map(publication => (
                   <View key={publication}>
@@ -293,7 +241,7 @@ export const SingleArtwork = () => {
             <ExpandRow headerTitle="Exhibition History">
               <SeparateChildren
                 Separator={() =>
-                  (<View style={{ height: 10 }} />) as ReactElement
+                  (<View style={styles.separator} />) as ReactElement
                 }>
                 {exhibitionHistory.filter(Boolean).map(exhibition => (
                   <View key={exhibition}>
@@ -318,17 +266,12 @@ export const SingleArtwork = () => {
       </ScrollView>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
-        style={{
-          position: 'absolute',
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          left: 10,
-          top: insets.top + 10,
-          backgroundColor: colors.alphaColor(colors.primary, 0.9),
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+        style={[
+          styles.backButton,
+          {
+            top: insets.top + 10,
+          },
+        ]}>
         <Arrow direction="left" />
       </TouchableOpacity>
     </>
@@ -341,4 +284,68 @@ const styles = StyleSheet.create({
   },
   primaryText: { width: 80 },
   secondaryText: { flex: 3, marginHorizontal: 20, color: colors.silverDark },
+
+  skeletonContainer: {
+    width: sizes.deviceWidth,
+    height: sizes.deviceWidth,
+    borderRadius: sizes.borderRadius.big,
+    backgroundColor: colors.silver,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  skeletonTitleContainer: {
+    flex: 0,
+    paddingHorizontal: sizes.contentMargin.full,
+  },
+  skeletonItem: {
+    marginTop: 10,
+    width: '100%',
+    height: 60,
+    backgroundColor: colors.silver,
+  },
+  separator: { height: 20 },
+  listContainer: { marginVertical: 20 },
+  listSeparator: {
+    width: '95%',
+    alignSelf: 'center',
+    height: StyleSheet.hairlineWidth,
+    marginVertical: 15,
+    backgroundColor: colors.alphaColor(colors.black, 0.2),
+  },
+  artworkContainer: {
+    width: sizes.deviceWidth * 0.8,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  artworkImageContainer: {
+    flex: 0,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    marginVertical: sizes.contentMargin.double,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  artworkImage: {
+    width: '90%',
+
+    alignSelf: 'center',
+    marginVertical: sizes.contentMargin.half,
+    alignItems: 'center',
+  },
+  backButton: {
+    position: 'absolute',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    left: 10,
+
+    backgroundColor: colors.alphaColor(colors.primary, 0.9),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

@@ -1,4 +1,10 @@
-import React, { useMemo, ReactNode, Children, ComponentType } from 'react';
+import React, {
+  useMemo,
+  ReactNode,
+  Children,
+  ComponentType,
+  Fragment,
+} from 'react';
 import { ViewProps } from 'react-native';
 
 type Props = {

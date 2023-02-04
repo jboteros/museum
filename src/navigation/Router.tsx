@@ -1,9 +1,10 @@
 import React from 'react';
 import {
+  createStackNavigator,
   NavigationContainer,
   routeNames,
-  createStackNavigator,
   RootStackParamList,
+  createNavigationContainerRef,
 } from './index';
 import {
   HomeScreen,
@@ -15,8 +16,10 @@ import {
 export const Router = () => {
   const RootStack = createStackNavigator<RootStackParamList>();
 
+  const navigationRef = createNavigationContainerRef<RootStackParamList>();
+
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <RootStack.Navigator>
         <RootStack.Screen
           name={routeNames.HOME_SCREEN}

@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tests => CarouselItem should match snapshot 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "borderRadius": 10,
+      "height": 600,
+      "justifyContent": "center",
+      "marginLeft": 10,
+      "opacity": 1,
+      "overflow": "hidden",
+      "padding": 5,
+    }
+  }
+  testID="carouselItem"
+>
+  <Image
+    resizeMode="cover"
+    source={
+      {
+        "uri": "https://artic-web.imgix.net/3d41adc6-4124-4785-9841-700672f73873/IM034442-int-Print300ppi%2C3000px%2CAdobeRGB1998%2CTIF1.jpg?rect=0%2C1019%2C2408%2C1353&auto=format%2Ccompress&q=80&fit=crop&crop=faces%2Cedges%2Centropy&w=1200&h=674",
+      }
+    }
+    style={
+      {
+        "backgroundColor": "#dedede",
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+    testID="itemImage"
+  />
+  <View
+    style={
+      {
+        "backgroundColor": "rgba(255,255,255,0.8)",
+        "borderRadius": 6,
+        "bottom": 5,
+        "justifyContent": "space-around",
+        "paddingHorizontal": 10,
+        "paddingVertical": 5,
+        "position": "absolute",
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      numberOfLines={2}
+      style={
+        [
+          {
+            "fontSize": 25,
+            "fontWeight": "600",
+            "letterSpacing": 0.15,
+            "lineHeight": 38,
+          },
+          undefined,
+        ]
+      }
+    >
+      Slow Looking:  Representing the Body in Color (February 4)
+    </Text>
+    <View
+      style={
+        {
+          "height": 8,
+        }
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "fontSize": 22,
+            "letterSpacing": 0.25,
+          },
+          {
+            "color": "rgba(25,25,25,0.8)",
+          },
+        ]
+      }
+    >
+      Griffin Court
+    </Text>
+    <View
+      style={
+        {
+          "height": 8,
+        }
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19,
+          },
+          {
+            "alignSelf": "flex-end",
+            "color": "rgba(25,25,25,0.8)",
+          },
+        ]
+      }
+    >
+      Saturday, Feb 04 @ 01:00 AM
+    </Text>
+  </View>
+</View>
+`;

@@ -31,17 +31,18 @@ import {
   SeparateChildren,
 } from '@/components';
 import { useSpring } from '@/hooks/useSpring';
-import { Artwork } from '@/core/museum/types';
+import { ArtworkProps } from '@/core/museum/types';
 import { useActions } from './useActions';
 import { NotificationsIcon } from './NotificationsIcon';
 
-const keyExtractor = (item: Artwork, index: number) => `${item?.id}-${index}`;
+const keyExtractor = (item: ArtworkProps, index: number) =>
+  `${item?.id}-${index}`;
 
 const _renderItem = ({
   item,
   onSelect,
 }: {
-  item?: Artwork;
+  item?: ArtworkProps;
   onSelect: () => void;
 }) => {
   if (!item) {
@@ -49,35 +50,26 @@ const _renderItem = ({
   }
 
   return (
-    <TouchableOpacity
-      onPress={onSelect}
-      style={{
-        marginVertical: 20,
-        marginHorizontal: sizes.contentMargin.full,
-      }}>
+    <TouchableOpacity onPress={onSelect} style={styles.artContainer}>
       <View
-        style={{
-          width: sizes.deviceWidth * 0.8,
-          alignSelf: 'center',
-          backgroundColor: item.color
-            ? `hsl(${item.color.h}, ${item.color.s}%, ${item.color.l}%)`
-            : colors.primary,
-          justifyContent: 'center',
-        }}>
-        <View
-          style={{
-            flex: 0,
-          }}>
+        style={[
+          styles.artItemTop,
+          {
+            backgroundColor: item.color
+              ? `hsl(${item.color.h}, ${item.color.s}%, ${item.color.l}%)`
+              : colors.primary,
+          },
+        ]}>
+        <View style={styles.imageContainer}>
           {item?.thumbnail && (
             <Image
               resizeMode="contain"
-              style={{
-                width: '90%',
-                alignSelf: 'center',
-                marginVertical: 10,
-                alignItems: 'center',
-                aspectRatio: item?.thumbnail?.width / item?.thumbnail?.height,
-              }}
+              style={[
+                styles.artImage,
+                {
+                  aspectRatio: item?.thumbnail?.width / item?.thumbnail?.height,
+                },
+              ]}
               source={{
                 uri: `https://www.artic.edu/iiif/2/${item.image_id}/full/200,/0/default.jpg`,
               }}
@@ -85,12 +77,8 @@ const _renderItem = ({
           )}
         </View>
       </View>
-      <View
-        style={{
-          paddingVertical: 10,
-          marginHorizontal: sizes.contentMargin.full,
-        }}>
-        <SeparateChildren Separator={() => <View style={{ height: 5 }} />}>
+      <View style={styles.artDescription}>
+        <SeparateChildren Separator={() => <View style={styles.separator} />}>
           <AppText.Subtitle2
             style={{
               color: colors.alphaColor(colors.black, 0.8),
@@ -175,13 +163,13 @@ export function HomeScreen(): JSX.Element {
   }, [handleGetArtworks]);
 
   const handleSelectArtwork = useCallback(
-    (artwork: Artwork) =>
+    (artwork: ArtworkProps) =>
       navigation.navigate(routeNames.SINGLE_ARTWORK, { id: artwork.id }),
     [navigation],
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: Artwork }) =>
+    ({ item }: { item: ArtworkProps }) =>
       _renderItem({
         item,
         onSelect: () => {
@@ -203,39 +191,17 @@ export function HomeScreen(): JSX.Element {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <Animated.View
         style={[
-          {
-            zIndex: 1,
-            position: 'absolute',
-            width: '100%',
-            alignSelf: 'center',
-            paddingHorizontal: sizes.contentMargin.full,
-            top: 0,
-            paddingTop: insets.top,
-            marginTop: 20,
-            marginHorizontal: 10,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          },
+          styles.content,
+          { paddingTop: insets.top },
           { transform: [{ translateY: translateYContent }] },
         ]}>
-        <View
-          style={{
-            width: 40,
-            height: 40,
-            backgroundColor: colors.silver,
-            borderRadius: sizes.borderRadius.medium,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+        <View style={styles.notificationsIcon}>
           <NotificationsIcon color={colors.alphaColor(colors.primary, 0.5)} />
         </View>
-        <Image
-          source={require('./articLogo.png')}
-          style={{ width: 70, height: 70 }}
-        />
+        <Image source={require('./articLogo.png')} style={styles.articLogo} />
       </Animated.View>
 
       <FlatList
@@ -248,23 +214,15 @@ export function HomeScreen(): JSX.Element {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={renderHeader()}
         onEndReachedThreshold={0.1}
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingTop: Platform.OS === 'ios' ? insets.top : insets.top + 50,
-        }}
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          {
+            paddingTop: Platform.OS === 'ios' ? insets.top : insets.top + 50,
+          },
+        ]}
         onEndReached={handleEndReached}
         ItemSeparatorComponent={() =>
-          (
-            <View
-              style={{
-                width: '60%',
-                alignSelf: 'center',
-                marginBottom: 20,
-                height: StyleSheet.hairlineWidth,
-                backgroundColor: colors.alphaColor(colors.primaryDark, 0.5),
-              }}
-            />
-          ) as ReactElement
+          (<View style={styles.listSeparator} />) as ReactElement
         }
         refreshControl={Platform.select({
           ios: (
@@ -292,23 +250,80 @@ export function HomeScreen(): JSX.Element {
           })
         }>
         <Animated.View
-          style={[
-            {
-              position: 'absolute',
-              width: 40,
-              height: 40,
-              borderRadius: 20,
-              right: 10,
-              bottom: insets.bottom + 10,
-              backgroundColor: colors.alphaColor(colors.primary, 0.9),
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-            { opacity },
-          ]}>
+          style={[styles.arrowUp, { bottom: insets.bottom + 10, opacity }]}>
           <Arrow direction="up" />
         </Animated.View>
       </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  content: {
+    zIndex: 1,
+    position: 'absolute',
+    width: '100%',
+    alignSelf: 'center',
+    paddingHorizontal: sizes.contentMargin.full,
+    top: 0,
+    marginTop: 20,
+    marginHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  articLogo: { width: 70, height: 70 },
+  notificationsIcon: {
+    width: 40,
+    height: 40,
+    backgroundColor: colors.silver,
+    borderRadius: sizes.borderRadius.medium,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  contentContainerStyle: {
+    flexGrow: 1,
+  },
+  listSeparator: {
+    width: '60%',
+    alignSelf: 'center',
+    marginBottom: 20,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.alphaColor(colors.primaryDark, 0.5),
+  },
+  arrowUp: {
+    position: 'absolute',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    right: 10,
+
+    backgroundColor: colors.alphaColor(colors.primary, 0.9),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  artContainer: {
+    marginVertical: 20,
+    marginHorizontal: sizes.contentMargin.full,
+  },
+  artItemTop: {
+    width: sizes.deviceWidth * 0.8,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  artImage: {
+    width: '90%',
+    alignSelf: 'center',
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  imageContainer: {
+    flex: 0,
+  },
+  artDescription: {
+    paddingVertical: 10,
+    marginHorizontal: sizes.contentMargin.full,
+  },
+  separator: { height: 5 },
+});
