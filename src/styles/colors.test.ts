@@ -47,27 +47,27 @@ describe('colors hexadecimal primary', () => {
 });
 
 describe('colors rgba accentPrimary', () => {
-  it('blueMask 0%', () => {
+  it('accentPrimary 0%', () => {
     expect(colors.alphaColor(colors.accentPrimary, 0.0)).toEqual(
       'rgba(181,9,56,0)',
     );
   });
-  it('blueMask 25%', () => {
+  it('accentPrimary 25%', () => {
     expect(colors.alphaColor(colors.accentPrimary, 0.25)).toEqual(
       'rgba(181,9,56,0.25)',
     );
   });
-  it('blueMask 50%', () => {
+  it('accentPrimary 50%', () => {
     expect(colors.alphaColor(colors.accentPrimary, 0.5)).toEqual(
       'rgba(181,9,56,0.5)',
     );
   });
-  it('blueMask 75%', () => {
+  it('accentPrimary 75%', () => {
     expect(colors.alphaColor(colors.accentPrimary, 0.75)).toEqual(
       'rgba(181,9,56,0.75)',
     );
   });
-  it('blueMask 100%', () => {
+  it('accentPrimary 100%', () => {
     expect(colors.alphaColor(colors.accentPrimary, 1)).toEqual(
       'rgba(181,9,56,1)',
     );
@@ -75,27 +75,27 @@ describe('colors rgba accentPrimary', () => {
 });
 
 describe('colors rgba accentPrimaryLight', () => {
-  it('blueMask 0%', () => {
+  it('accentPrimaryLight 0%', () => {
     expect(colors.alphaColor(colors.accentPrimaryLight, 0.0)).toEqual(
       'rgba(181,9,56,0)',
     );
   });
-  it('blueMask 25%', () => {
+  it('accentPrimaryLight 25%', () => {
     expect(colors.alphaColor(colors.accentPrimaryLight, 0.25)).toEqual(
       'rgba(181,9,56,0.25)',
     );
   });
-  it('blueMask 50%', () => {
+  it('accentPrimaryLight 50%', () => {
     expect(colors.alphaColor(colors.accentPrimaryLight, 0.5)).toEqual(
       'rgba(181,9,56,0.5)',
     );
   });
-  it('blueMask 75%', () => {
+  it('accentPrimaryLight 75%', () => {
     expect(colors.alphaColor(colors.accentPrimaryLight, 0.75)).toEqual(
       'rgba(181,9,56,0.75)',
     );
   });
-  it('blueMask 100%', () => {
+  it('accentPrimaryLight 100%', () => {
     expect(colors.alphaColor(colors.accentPrimaryLight, 1)).toEqual(
       'rgba(181,9,56,1)',
     );
