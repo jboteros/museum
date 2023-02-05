@@ -14,8 +14,8 @@ import {
   TouchableOpacity,
   View,
   Animated,
+  ActivityIndicator,
 } from 'react-native';
-import { useAppSelector } from '@/core';
 import {
   NavigationProps,
   routeNames,
@@ -33,6 +33,7 @@ import {
 import { useSpring } from '@/hooks/useSpring';
 import { ArtworkProps } from '@/core/museum/types';
 import { useActions } from './useActions';
+import { useStore } from './useStore';
 import { NotificationsIcon } from './NotificationsIcon';
 
 const keyExtractor = (item: ArtworkProps, index: number) =>
@@ -108,7 +109,7 @@ export function HomeScreen(): JSX.Element {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const { handleGetEvents, handleGetArtworks } = useActions();
 
-  const { artworks = [] } = useAppSelector(state => state.museum);
+  const { artworks, loadingArtworks, loadingEvent } = useStore();
 
   const animate = useSpring(
     { to: isActive ? 1 : 0 },
@@ -204,44 +205,54 @@ export function HomeScreen(): JSX.Element {
         <Image source={require('./articLogo.png')} style={styles.articLogo} />
       </Animated.View>
 
-      <FlatList
-        ref={flatListRef}
-        data={artworks}
-        onScroll={handleScroll}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        contentInsetAdjustmentBehavior="automatic"
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={renderHeader()}
-        onEndReachedThreshold={0.1}
-        contentContainerStyle={[
-          styles.contentContainerStyle,
-          {
-            paddingTop: Platform.OS === 'ios' ? insets.top : insets.top + 50,
-          },
-        ]}
-        onEndReached={handleEndReached}
-        ItemSeparatorComponent={() =>
-          (<View style={styles.listSeparator} />) as ReactElement
-        }
-        refreshControl={Platform.select({
-          ios: (
-            <RefreshControl
-              tintColor={colors.primary}
-              refreshing={isRefreshing}
-              onRefresh={handleRefreshPull}
-            />
-          ),
-          android: (
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={handleRefreshPull}
-              progressBackgroundColor={colors.silver}
-              colors={[colors.primary, colors.primaryDark, colors.primaryLight]}
-            />
-          ),
-        })}
-      />
+      {!loadingArtworks || loadingEvent ? (
+        <FlatList
+          ref={flatListRef}
+          data={artworks}
+          onScroll={handleScroll}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          contentInsetAdjustmentBehavior="automatic"
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={renderHeader()}
+          onEndReachedThreshold={0.1}
+          contentContainerStyle={[
+            styles.contentContainerStyle,
+            {
+              paddingTop: Platform.OS === 'ios' ? insets.top : insets.top + 50,
+            },
+          ]}
+          onEndReached={handleEndReached}
+          ItemSeparatorComponent={() =>
+            (<View style={styles.listSeparator} />) as ReactElement
+          }
+          refreshControl={Platform.select({
+            ios: (
+              <RefreshControl
+                tintColor={colors.primary}
+                refreshing={isRefreshing}
+                onRefresh={handleRefreshPull}
+              />
+            ),
+            android: (
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleRefreshPull}
+                progressBackgroundColor={colors.silver}
+                colors={[
+                  colors.primary,
+                  colors.primaryDark,
+                  colors.primaryLight,
+                ]}
+              />
+            ),
+          })}
+        />
+      ) : (
+        <View style={styles.listSkeleton}>
+          <ActivityIndicator size="small" color={colors.primary} />
+        </View>
+      )}
       <TouchableOpacity
         onPress={() =>
           flatListRef.current?.scrollToOffset({
@@ -326,4 +337,9 @@ const styles = StyleSheet.create({
     marginHorizontal: sizes.contentMargin.full,
   },
   separator: { height: 5 },
+  listSkeleton: {
+    height: sizes.deviceHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
