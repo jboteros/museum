@@ -3,8 +3,7 @@ import '@testing-library/jest-native/extend-expect';
 import 'react-native-gesture-handler/jestSetup';
 
 jest.mock('@notifee/react-native', () => {
-  const notifee = require('@notifee/react-native/jest-mock');
-  return notifee;
+  return require('@notifee/react-native/jest-mock');
 });
 
 jest.mock('react-native-reanimated', () => {

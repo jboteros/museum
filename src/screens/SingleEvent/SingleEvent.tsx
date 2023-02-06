@@ -17,18 +17,18 @@ import {
   useNavigation,
   NavigationProps,
 } from '@/navigation';
-import { useAppSelector } from '@/core';
 import { colors, sizes } from '@/styles';
 import { AppText, Arrow, SeparateChildren } from '@/components';
 import { generateLocalNotification } from '@/util/notificationsHelper';
 import { useActions } from './useActions';
+import { useStore } from './useStore';
 
 export const SingleEvent = () => {
   const navigation = useNavigation<NavigationProps>();
   const insets = useSafeAreaInsets();
   const { handleGetEvent, handleResetEvent } = useActions();
 
-  const { event, loadingEvent } = useAppSelector(state => state.museum);
+  const { event, loadingEvent } = useStore();
 
   const route = useRoute<
     RouteProp<

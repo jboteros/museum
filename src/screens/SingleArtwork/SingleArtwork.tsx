@@ -17,15 +17,15 @@ import {
   NavigationProps,
 } from '@/navigation';
 import { useAppSelector } from '@/core';
-import { useActions } from './useActions';
 import { colors, sizes } from '@/styles';
 import { AppText, Arrow, SeparateChildren } from '@/components';
+import { useActions } from './useActions';
 import { ExpandRow } from './ExpandRow';
 
 export const SingleArtwork = () => {
   const navigation = useNavigation<NavigationProps>();
-
   const insets = useSafeAreaInsets();
+
   const { handleGetArtwork, handleResetArtwork } = useActions();
 
   const { artwork, loadingArtwork } = useAppSelector(state => state.museum);
