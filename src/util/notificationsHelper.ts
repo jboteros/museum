@@ -63,12 +63,7 @@ export const generateLocalNotification = async ({
     name: title || 'Default channel',
   })) as string;
 
-  console.log('🚀 ~ channelId', channelId);
-
   try {
-    console.log({
-      id,
-    });
     await notifee.requestPermission();
 
     const scheduledNotifications = await notifee.getTriggerNotificationIds();
@@ -127,7 +122,6 @@ export const generateLocalNotification = async ({
       );
     }
   } catch (error: any) {
-    console.log('error', error);
     if (
       typeof error?.message === 'string' &&
       error?.message.includes('expected a unique string value')
@@ -138,18 +132,18 @@ export const generateLocalNotification = async ({
         [
           {
             text: 'Continue',
-            onPress: () => console.log('Cancel Pressed'),
           },
           {
             style: 'destructive',
             text: 'Cancel notification',
             onPress: () => {
-              console.log('Cancel Pressed');
               cancelNotification(channelId);
             },
           },
         ],
       );
+    } else {
+      console.error('error', error);
     }
   }
 };
