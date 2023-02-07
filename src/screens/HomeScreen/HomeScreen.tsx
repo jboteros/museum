@@ -31,6 +31,8 @@ import { useStore } from './useStore';
 import { NotificationsIcon } from './NotificationsIcon';
 import { ArtworkListItem } from './ArtworkItem';
 
+import { ComponentWithError } from './ComponentWithError';
+
 const keyExtractor = (item: ArtworkProps, index: number) =>
   `${item?.id}-${index}`;
 
@@ -47,6 +49,7 @@ export function HomeScreen(): JSX.Element {
   const navigation = useNavigation<NavigationProps>();
   const flatListRef = useRef<FlatList>(null);
 
+  const [showError, setShowError] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -141,9 +144,13 @@ export function HomeScreen(): JSX.Element {
           { paddingTop: insets.top },
           { transform: [{ translateY: translateYContent }] },
         ]}>
-        <View style={styles.notificationsIcon}>
+        <TouchableOpacity
+          onPress={() => {
+            setShowError(true);
+          }}
+          style={styles.notificationsIcon}>
           <NotificationsIcon color={colors.alphaColor(colors.primary, 0.5)} />
-        </View>
+        </TouchableOpacity>
         <Image source={require('./articLogo.png')} style={styles.articLogo} />
       </Animated.View>
 
@@ -209,6 +216,7 @@ export function HomeScreen(): JSX.Element {
           <Arrow direction="up" />
         </Animated.View>
       </TouchableOpacity>
+      {showError && <ComponentWithError />}
     </View>
   );
 }
