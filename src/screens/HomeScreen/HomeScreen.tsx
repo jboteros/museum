@@ -23,81 +23,16 @@ import {
   useSafeAreaInsets,
 } from '@/navigation';
 import { colors, sizes } from '@/styles';
-import {
-  AppText,
-  Arrow,
-  EventsCarrousel,
-  SectionTitle,
-  SeparateChildren,
-} from '@/components';
+import { Arrow, EventsCarrousel, SectionTitle } from '@/components';
 import { useSpring } from '@/hooks/useSpring';
 import { ArtworkProps } from '@/core/museum/types';
 import { useActions } from './useActions';
 import { useStore } from './useStore';
 import { NotificationsIcon } from './NotificationsIcon';
+import { ArtworkListItem } from './ArtworkItem';
 
 const keyExtractor = (item: ArtworkProps, index: number) =>
   `${item?.id}-${index}`;
-
-const _renderItem = ({
-  item,
-  onSelect,
-}: {
-  item?: ArtworkProps;
-  onSelect: () => void;
-}) => {
-  if (!item) {
-    return null;
-  }
-
-  return (
-    <TouchableOpacity onPress={onSelect} style={styles.artContainer}>
-      <View
-        style={[
-          styles.artItemTop,
-          {
-            backgroundColor: item.color
-              ? `hsl(${item.color.h}, ${item.color.s}%, ${item.color.l}%)`
-              : colors.primary,
-          },
-        ]}>
-        <View style={styles.imageContainer}>
-          {item?.thumbnail && (
-            <Image
-              resizeMode="contain"
-              style={[
-                styles.artImage,
-                {
-                  aspectRatio: item?.thumbnail?.width / item?.thumbnail?.height,
-                },
-              ]}
-              source={{
-                uri: `https://www.artic.edu/iiif/2/${item.image_id}/full/200,/0/default.jpg`,
-              }}
-            />
-          )}
-        </View>
-      </View>
-      <View style={styles.artDescription}>
-        <SeparateChildren Separator={() => <View style={styles.separator} />}>
-          <AppText.Subtitle2
-            style={{
-              color: colors.alphaColor(colors.black, 0.8),
-            }}>
-            {item.title}
-          </AppText.Subtitle2>
-          <AppText.Body1>
-            {item.artist_title}
-            {item.artist_title && item.fiscal_year && '  |  '}
-            {item.fiscal_year && (
-              <AppText.Overline2>{item.fiscal_year}</AppText.Overline2>
-            )}
-          </AppText.Body1>
-        </SeparateChildren>
-      </View>
-    </TouchableOpacity>
-  );
-};
 
 export function HomeScreen(): JSX.Element {
   const insets = useSafeAreaInsets();
@@ -170,13 +105,16 @@ export function HomeScreen(): JSX.Element {
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: ArtworkProps }) =>
-      _renderItem({
-        item,
-        onSelect: () => {
-          handleSelectArtwork(item);
-        },
-      }),
+    ({ item }: { item: ArtworkProps }) => {
+      return (
+        <ArtworkListItem
+          item={item}
+          onSelect={() => {
+            handleSelectArtwork(item);
+          }}
+        />
+      );
+    },
     [handleSelectArtwork],
   );
 
@@ -313,30 +251,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-  artContainer: {
-    marginVertical: 20,
-    marginHorizontal: sizes.contentMargin.full,
-  },
-  artItemTop: {
-    width: sizes.deviceWidth * 0.8,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-  artImage: {
-    width: '90%',
-    alignSelf: 'center',
-    marginVertical: 10,
-    alignItems: 'center',
-  },
-  imageContainer: {
-    flex: 0,
-  },
-  artDescription: {
-    paddingVertical: 10,
-    marginHorizontal: sizes.contentMargin.full,
-  },
-  separator: { height: 5 },
   listSkeleton: {
     height: sizes.deviceHeight,
     justifyContent: 'center',
