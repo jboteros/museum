@@ -158,6 +158,8 @@ export function HomeScreen(): JSX.Element {
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={renderHeader()}
           onEndReachedThreshold={0.1}
+          initialNumToRender={4}
+          removeClippedSubviews
           contentContainerStyle={[
             styles.contentContainerStyle,
             {
