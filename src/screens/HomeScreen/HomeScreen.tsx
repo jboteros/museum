@@ -40,13 +40,7 @@ const _renderItem = ({
 }: {
   item?: ArtworkProps;
   onSelect: () => void;
-}) => {
-  if (!item) {
-    return null;
-  }
-
-  return <ArtworkListItem item={item} onSelect={onSelect} />;
-};
+}) => <ArtworkListItem item={item} onSelect={onSelect} />;
 
 export function HomeScreen(): JSX.Element {
   const insets = useSafeAreaInsets();
