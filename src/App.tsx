@@ -22,7 +22,7 @@ const CustomFallback = (props: { error: Error; resetError: Function }) => (
 
 export const App = () => {
   const errorHandler = useCallback((error: Error, stackTrace: string) => {
-    //TODO send error to sentry or other error tracking service
+    //TODO: send error to sentry or other error tracking service
     console.log('🚀 ~ errorHandler ~ error, stackTrace', { error, stackTrace });
   }, []);
 
