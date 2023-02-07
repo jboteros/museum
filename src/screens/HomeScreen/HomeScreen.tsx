@@ -34,6 +34,20 @@ import { ArtworkListItem } from './ArtworkItem';
 const keyExtractor = (item: ArtworkProps, index: number) =>
   `${item?.id}-${index}`;
 
+const _renderItem = ({
+  item,
+  onSelect,
+}: {
+  item?: ArtworkProps;
+  onSelect: () => void;
+}) => {
+  if (!item) {
+    return null;
+  }
+
+  return <ArtworkListItem item={item} onSelect={onSelect} />;
+};
+
 export function HomeScreen(): JSX.Element {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProps>();
@@ -103,18 +117,14 @@ export function HomeScreen(): JSX.Element {
       navigation.navigate(routeNames.SINGLE_ARTWORK, { id: artwork.id }),
     [navigation],
   );
-
   const renderItem = useCallback(
-    ({ item }: { item: ArtworkProps }) => {
-      return (
-        <ArtworkListItem
-          item={item}
-          onSelect={() => {
-            handleSelectArtwork(item);
-          }}
-        />
-      );
-    },
+    ({ item }: { item: ArtworkProps }) =>
+      _renderItem({
+        item,
+        onSelect: () => {
+          handleSelectArtwork(item);
+        },
+      }),
     [handleSelectArtwork],
   );
 
