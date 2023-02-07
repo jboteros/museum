@@ -1,11 +1,11 @@
-import { colors, sizes } from '@/styles';
 import React, { ReactElement } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { format } from 'date-fns';
+import { colors, sizes } from '@/styles';
 import { EventProps } from '@/core/museum/types';
 import { AppText } from '../AppText';
-import { SCALE_FACTOR_HEIGHT } from './EventsCarrousel';
 import { SeparateChildren } from '../SeparateChildren';
-import { format } from 'date-fns';
+import { SCALE_FACTOR_HEIGHT } from './EventsCarrousel';
 
 export const CarouselItem = ({
   item,

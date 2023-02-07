@@ -30,7 +30,6 @@ import { useActions } from './useActions';
 import { useStore } from './useStore';
 import { NotificationsIcon } from './NotificationsIcon';
 import { ArtworkListItem } from './ArtworkItem';
-
 import { ComponentWithError } from './ComponentWithError';
 
 const keyExtractor = (item: ArtworkProps, index: number) =>

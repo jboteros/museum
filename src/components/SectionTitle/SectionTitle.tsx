@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
-import { AppText } from '../AppText';
-import { colors } from '@/styles';
 import { StyleSheet } from 'react-native';
+import { colors } from '@/styles';
+import { AppText } from '../AppText';
 
 interface SectionTitleProps {
   title: string;

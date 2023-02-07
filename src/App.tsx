@@ -1,13 +1,12 @@
 import React, { useCallback } from 'react';
+import { Button, StyleSheet, View } from 'react-native';
 import ErrorBoundary from 'react-native-error-boundary';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-
 import { store } from '@/core';
 import { Router, SafeAreaProvider } from '@/navigation';
-import { Button, StyleSheet, View } from 'react-native';
-import { AppText } from './components';
+import { AppText } from '@/components';
 import { colors, sizes } from './styles';
 
 const persistor = persistStore(store);

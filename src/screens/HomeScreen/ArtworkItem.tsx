@@ -1,9 +1,8 @@
 import React, { memo } from 'react';
-import { ArtworkProps } from '@/core/museum/types';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { View } from 'react-native';
+import { Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors, sizes } from '@/styles';
 import { AppText, SeparateChildren } from '@/components';
+import { ArtworkProps } from '@/core/museum/types';
 
 export const component = ({
   item,
