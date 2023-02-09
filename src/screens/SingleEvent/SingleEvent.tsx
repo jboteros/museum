@@ -65,15 +65,25 @@ export const SingleEvent = () => {
   return (
     <>
       <ScrollView>
-        <Image
-          source={{ uri: event?.image_url }}
-          resizeMode="cover"
-          style={{
-            width: sizes.deviceWidth,
-            height: sizes.deviceWidth,
-            borderRadius: sizes.borderRadius.big,
-          }}
-        />
+        {typeof event?.image_url === 'string' ? (
+          <Image
+            source={{ uri: event.image_url }}
+            resizeMode="cover"
+            style={{
+              width: sizes.deviceWidth,
+              height: sizes.deviceWidth,
+              borderRadius: sizes.borderRadius.big,
+            }}
+          />
+        ) : (
+          <View
+            style={{
+              width: sizes.deviceWidth,
+              height: sizes.deviceWidth,
+              borderRadius: sizes.borderRadius.big,
+            }}
+          />
+        )}
 
         <View style={{ paddingHorizontal: sizes.contentMargin.full }}>
           <SeparateChildren

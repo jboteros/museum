@@ -24,15 +24,17 @@ export const CarouselItem = ({
       key={item?.id}
       onPress={onSelect}
       style={styles.container}>
-      <Image
-        testID="itemImage"
-        resizeMode="cover"
-        source={{ uri: item.image_url }}
-        style={{
-          backgroundColor: colors.silver,
-          ...StyleSheet.absoluteFillObject,
-        }}
-      />
+      {typeof item.image_url === 'string' && (
+        <Image
+          testID="itemImage"
+          resizeMode="cover"
+          source={{ uri: item.image_url }}
+          style={{
+            backgroundColor: colors.silver,
+            ...StyleSheet.absoluteFillObject,
+          }}
+        />
+      )}
       <View style={styles.content}>
         <SeparateChildren
           Separator={() => (<View style={styles.separator} />) as ReactElement}>

@@ -81,17 +81,27 @@ export const SingleArtwork = () => {
               imageId: artwork?.image_id,
             })
           }>
-          <Image
-            source={{
-              uri: `https://www.artic.edu/iiif/2/${artwork?.image_id}/full/800,/0/default.jpg`,
-            }}
-            resizeMode="cover"
-            style={{
-              width: sizes.deviceWidth,
-              height: sizes.deviceWidth,
-              borderRadius: sizes.borderRadius.big,
-            }}
-          />
+          {typeof artwork?.image_id === 'string' ? (
+            <Image
+              source={{
+                uri: `https://www.artic.edu/iiif/2/${artwork?.image_id}/full/800,/0/default.jpg`,
+              }}
+              resizeMode="cover"
+              style={{
+                width: sizes.deviceWidth,
+                height: sizes.deviceWidth,
+                borderRadius: sizes.borderRadius.big,
+              }}
+            />
+          ) : (
+            <View
+              style={{
+                width: sizes.deviceWidth,
+                height: sizes.deviceWidth,
+                borderRadius: sizes.borderRadius.big,
+              }}
+            />
+          )}
         </TouchableOpacity>
 
         <View style={{ paddingHorizontal: sizes.contentMargin.double }}>
@@ -122,7 +132,7 @@ export const SingleArtwork = () => {
                     Title
                   </AppText.ControlSelected>
                   <AppText.ControlResting style={styles.secondaryText}>
-                    ˝{artwork?.title}
+                    {artwork?.title}
                   </AppText.ControlResting>
                 </View>
                 <View style={styles.textBlock}>
