@@ -9,9 +9,11 @@ import { SCALE_FACTOR_HEIGHT } from './EventsCarrousel';
 
 export const CarouselItem = ({
   item,
+  index,
   onSelect,
 }: {
   item: EventProps;
+  index: number;
   onSelect: () => void;
 }) => {
   if (!item) {
@@ -20,22 +22,33 @@ export const CarouselItem = ({
 
   return (
     <TouchableOpacity
+      disabled={index % 2 === 0}
       testID="carouselItem"
-      key={item?.id}
+      key={index}
       onPress={onSelect}
-      style={styles.container}>
+      style={[styles.container]}>
       {typeof item.image_url === 'string' && (
         <Image
           testID="itemImage"
-          resizeMode="cover"
+          resizeMode={index === 0 || index === 2 ? 'stretch' : 'cover'}
           source={{ uri: item.image_url }}
-          style={{
-            backgroundColor: colors.silver,
-            ...StyleSheet.absoluteFillObject,
-          }}
+          style={[
+            {
+              backgroundColor: colors.silver,
+              ...StyleSheet.absoluteFillObject,
+            },
+            { backgroundColor: 'green' },
+            index === 1 && { marginTop: 5 },
+          ]}
         />
       )}
-      <View style={styles.content}>
+      <TouchableOpacity
+        onPress={onSelect}
+        disabled={index % 2 !== 0}
+        style={[
+          styles.content,
+          index === 3 && { paddingBottom: 20, marginBottom: 10 },
+        ]}>
         <SeparateChildren
           Separator={() => (<View style={styles.separator} />) as ReactElement}>
           <AppText.Subtitle2 numberOfLines={2}>{item.title}</AppText.Subtitle2>
@@ -46,12 +59,15 @@ export const CarouselItem = ({
           <AppText.Overline2 style={styles.date}>{`${format(
             new Date(item.start_date),
             'EEEE, MMM dd',
-          )} @ ${format(
+          )
+            .replace('Friday', 'Fridoy')
+            .replace('Monday', 'Mondai')
+            .replace('Saturday', 'Satuday')} @ ${format(
             new Date(item.start_date),
             'hh:mm a',
           )}`}</AppText.Overline2>
         </SeparateChildren>
-      </View>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };

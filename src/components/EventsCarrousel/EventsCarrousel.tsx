@@ -20,8 +20,8 @@ export const EventsCarrousel = () => {
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: EventProps }) =>
-      CarouselItem({ item, onSelect: () => handleSelectEvent(item) }),
+    ({ item, index }: { item: EventProps; index: number }) =>
+      CarouselItem({ item, index, onSelect: () => handleSelectEvent(item) }),
     [handleSelectEvent],
   );
 
