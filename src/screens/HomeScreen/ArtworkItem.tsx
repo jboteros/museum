@@ -7,8 +7,10 @@ import { ArtworkProps } from '@/core/museum/types';
 export const component = ({
   item,
   onSelect,
+  index,
 }: {
   item?: ArtworkProps;
+  index?: number;
   onSelect: () => void;
 }) => {
   if (!item) {
@@ -31,7 +33,9 @@ export const component = ({
             <Image
               resizeMode="contain"
               style={[
-                styles.artImage,
+                index === 4 || index === 9
+                  ? styles.artImageBroken
+                  : styles.artImage,
                 {
                   aspectRatio: item?.thumbnail?.width / item?.thumbnail?.height,
                 },
@@ -43,7 +47,10 @@ export const component = ({
           )}
         </View>
       </View>
-      <View style={styles.artDescription}>
+      <View
+        style={
+          index === 2 ? styles.artDescriptionBroken : styles.artDescription
+        }>
         <SeparateChildren Separator={() => <View style={styles.separator} />}>
           <AppText.Subtitle2
             style={{
@@ -51,9 +58,20 @@ export const component = ({
             }}>
             {item.title}
           </AppText.Subtitle2>
+          {index === 7 && (
+            <AppText.Body1>
+              {item.artist_title}
+              {'  |  '}
+              {!item.artist_title || (!item.fiscal_year && '-999')}
+              {item.fiscal_year && (
+                <AppText.Overline2>{item.fiscal_year}</AppText.Overline2>
+              )}
+            </AppText.Body1>
+          )}
           <AppText.Body1>
             {item.artist_title}
-            {item.artist_title && item.fiscal_year && '  |  '}
+            {'  |  '}
+            {!item.artist_title || (!item.fiscal_year && '-999')}
             {item.fiscal_year && (
               <AppText.Overline2>{item.fiscal_year}</AppText.Overline2>
             )}
@@ -80,11 +98,22 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: 'center',
   },
+  artImageBroken: {
+    width: '10%',
+    alignSelf: 'flex-end',
+    marginLeft: 60,
+    alignItems: 'center',
+  },
   imageContainer: {
     flex: 0,
   },
   artDescription: {
     paddingVertical: 10,
+    marginHorizontal: sizes.contentMargin.full,
+  },
+  artDescriptionBroken: {
+    paddingVertical: 0,
+    paddingHorizontal: 50,
     marginHorizontal: sizes.contentMargin.full,
   },
   separator: { height: 5 },
