@@ -18,7 +18,9 @@ export const component = ({
   }
 
   return (
-    <TouchableOpacity onPress={onSelect} style={styles.artContainer}>
+    <TouchableOpacity
+      onPress={index !== 3 ? onSelect : console.log}
+      style={styles.artContainer}>
       <View
         style={[
           styles.artItemTop,
