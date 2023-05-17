@@ -59,7 +59,7 @@ export function HomeScreen(): JSX.Element {
   const animate = useSpring(
     { to: isActive ? 1 : 0 },
     {
-      stiffness: 50,
+      stiffness: 5,
     },
   );
 
@@ -70,7 +70,7 @@ export function HomeScreen(): JSX.Element {
 
   const translateYContent = animate.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, -250],
+    outputRange: [0, -90],
   }) as unknown as number;
 
   useEffect(() => {
@@ -127,7 +127,7 @@ export function HomeScreen(): JSX.Element {
   const renderHeader = useCallback(
     () => (
       <View style={{ marginTop: insets.top }}>
-        <SectionTitle title="Events" />
+        <SectionTitle title="Eventos" />
         <EventsCarrousel />
         <SectionTitle title="Artworks" />
       </View>
@@ -231,10 +231,12 @@ const styles = StyleSheet.create({
     top: 0,
     marginTop: 20,
     marginHorizontal: 10,
+    paddingLeft: 10,
+    paddingRight: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  articLogo: { width: 70, height: 70 },
+  articLogo: { width: 70, height: 70, marginTop: 10 },
   notificationsIcon: {
     width: 40,
     height: 40,
