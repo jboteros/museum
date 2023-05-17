@@ -1,4 +1,4 @@
-import React, { useEffect, ReactElement, useMemo } from 'react';
+import React, { useEffect, ReactElement, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -25,11 +25,18 @@ import { ExpandRow } from './ExpandRow';
 export const SingleArtwork = () => {
   const navigation = useNavigation<NavigationProps>();
   const insets = useSafeAreaInsets();
+  const [isImageBroken, setIsImageBroken] = useState(false);
 
-  const { handleGetArtwork, handleResetArtwork } = useActions();
+  const { handleGetArtwork, handleResetArtwork, toggleIsBuggy } = useActions();
 
-  const { artwork, loadingArtwork } = useAppSelector(state => state.museum);
+  const { artwork, loadingArtwork, isArtworkBuggy } = useAppSelector(
+    state => state.museum,
+  );
 
+  console.log(
+    '🚀 ~ file: SingleArtwork.tsx:39 ~ SingleArtwork ~ isArtworkBuggy:',
+    isArtworkBuggy,
+  );
   const route = useRoute<
     RouteProp<
       {
@@ -42,11 +49,12 @@ export const SingleArtwork = () => {
   const { id } = route.params;
 
   useEffect(() => {
+    toggleIsBuggy();
     handleGetArtwork(id);
     return () => {
       handleResetArtwork();
     };
-  }, [handleGetArtwork, id, handleResetArtwork]);
+  }, [handleGetArtwork, id, handleResetArtwork, toggleIsBuggy]);
 
   const publicationHistory = useMemo(
     () => artwork?.publication_history?.split('\n\n') ?? [],
@@ -72,13 +80,23 @@ export const SingleArtwork = () => {
       </View>
     );
   }
+
+  const toggleIsImageBroken = (isBroken: boolean) => {
+    if (isArtworkBuggy) {
+      setIsImageBroken(isBroken);
+    }
+  };
+
   return (
     <>
-      <ScrollView>
+      <ScrollView
+        scrollEventThrottle={20}
+        onScroll={() => toggleIsImageBroken(true)}
+        onScrollEndDrag={() => toggleIsImageBroken(false)}>
         <TouchableOpacity
           onPress={() =>
             navigation.navigate(routeNames.IMAGE_VIEWER, {
-              imageId: artwork?.image_id,
+              imageId: isArtworkBuggy ? null : artwork?.image_id,
             })
           }>
           {typeof artwork?.image_id === 'string' ? (
@@ -124,7 +142,9 @@ export const SingleArtwork = () => {
                     Artist
                   </AppText.ControlSelected>
                   <AppText.ControlResting style={styles.secondaryText}>
-                    {artwork?.artist_title}
+                    {isArtworkBuggy
+                      ? '{artwork?.artist_title}'
+                      : artwork?.artist_title}
                   </AppText.ControlResting>
                 </View>
                 <View style={styles.textBlock}>
@@ -161,7 +181,7 @@ export const SingleArtwork = () => {
                 </View>
                 <View style={styles.textBlock}>
                   <AppText.ControlSelected style={styles.primaryText}>
-                    Dimensions
+                    {isArtworkBuggy ? 'DIMENSIONS' : 'Dimensions'}
                   </AppText.ControlSelected>
                   <AppText.ControlResting style={styles.secondaryText}>
                     {artwork?.dimensions}
@@ -202,7 +222,13 @@ export const SingleArtwork = () => {
                   : colors.primary,
               },
             ]}>
-            <View style={styles.artworkImageContainer}>
+            <View
+              style={[
+                styles.artworkImageContainer,
+                isImageBroken && {
+                  transform: [{ translateY: -5 }],
+                },
+              ]}>
               {artwork?.thumbnail && (
                 <Image
                   resizeMode="contain"

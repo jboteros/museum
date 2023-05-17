@@ -1,6 +1,11 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { setLoadingArtwork, setArtwork, resetArtwork } from '@/core/museum';
+import {
+  setLoadingArtwork,
+  setArtwork,
+  resetArtwork,
+  toggleIsArtworkBuggy,
+} from '@/core/museum';
 import { requestGetArtwork } from '@/core/museum/actions';
 
 export const useActions = () => {
@@ -30,8 +35,13 @@ export const useActions = () => {
     dispatch(resetArtwork());
   }, [dispatch]);
 
+  const toggleIsBuggy = useCallback(() => {
+    dispatch(toggleIsArtworkBuggy());
+  }, [dispatch]);
+
   return {
     handleGetArtwork,
     handleResetArtwork,
+    toggleIsBuggy,
   };
 };
