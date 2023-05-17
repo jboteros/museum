@@ -38,10 +38,12 @@ const keyExtractor = (item: ArtworkProps, index: number) =>
 const _renderItem = ({
   item,
   onSelect,
+  index,
 }: {
   item?: ArtworkProps;
+  index?: number;
   onSelect: () => void;
-}) => <ArtworkListItem item={item} onSelect={onSelect} />;
+}) => <ArtworkListItem item={item} index={index} onSelect={onSelect} />;
 
 export function HomeScreen(): JSX.Element {
   const insets = useSafeAreaInsets();
@@ -114,12 +116,13 @@ export function HomeScreen(): JSX.Element {
     [navigation],
   );
   const renderItem = useCallback(
-    ({ item }: { item: ArtworkProps }) =>
+    ({ item, index }: { item: ArtworkProps; index: number }) =>
       _renderItem({
         item,
         onSelect: () => {
           handleSelectArtwork(item);
         },
+        index,
       }),
     [handleSelectArtwork],
   );
