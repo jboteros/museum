@@ -11,6 +11,7 @@ interface EventSlice {
   loadingEvent: boolean;
   artworks: StateArtworks;
   artwork: ArtworkProps | null;
+  isArtworkBuggy: boolean;
   loadingArtworks: boolean;
   loadingArtwork: boolean;
 }
@@ -24,6 +25,7 @@ const eventSlice = createSlice({
     loadingEvent: false,
     artworks: [],
     artwork: null,
+    isArtworkBuggy: true,
     loadingArtworks: false,
     loadingArtwork: false,
   } as EventSlice,
@@ -61,6 +63,9 @@ const eventSlice = createSlice({
     resetArtwork(state) {
       state.artwork = null;
     },
+    toggleIsArtworkBuggy(state) {
+      state.isArtworkBuggy = !state.isArtworkBuggy;
+    },
   },
 });
 
@@ -76,6 +81,7 @@ export const {
   setLoadingArtwork,
   resetArtworks,
   resetArtwork,
+  toggleIsArtworkBuggy,
 } = eventSlice.actions;
 
 export default eventSlice.reducer;
